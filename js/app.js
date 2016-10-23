@@ -9944,9 +9944,9 @@ var _user$project$Types$List$ = F3(
 	function (a, b, c) {
 		return {title: a, items: b, created: c};
 	});
-var _user$project$Types$Idea = F4(
-	function (a, b, c, d) {
-		return {title: a, content: b, created: c, score: d};
+var _user$project$Types$Idea = F3(
+	function (a, b, c) {
+		return {title: a, content: b, created: c};
 	});
 var _user$project$Types$NoMsg = {ctor: 'NoMsg'};
 var _user$project$Types$Ideas = {ctor: 'Ideas'};
@@ -10081,17 +10081,29 @@ var _user$project$View$ideasHeader = function (page) {
 						[]))
 				])));
 };
+var _user$project$View$truncate = F2(
+	function (limit, string) {
+		var n = _elm_lang$core$String$length(string);
+		return (_elm_lang$core$Native_Utils.cmp(n, limit) > 0) ? A2(
+			_elm_lang$core$Basics_ops['++'],
+			A2(_elm_lang$core$String$left, limit, string),
+			'...') : string;
+	});
 var _user$project$View$idea = function (idea$) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$html$Html_Attributes$class('idea')
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
-					[]),
+					[
+						_elm_lang$html$Html_Attributes$class('title bold')
+					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html$text(idea$.title)
@@ -10099,10 +10111,13 @@ var _user$project$View$idea = function (idea$) {
 				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
-					[]),
+					[
+						_elm_lang$html$Html_Attributes$class('text')
+					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html$text(idea$.content)
+						_elm_lang$html$Html$text(
+						A2(_user$project$View$truncate, 100, idea$.content))
 					]))
 			]));
 };
@@ -10110,14 +10125,18 @@ var _user$project$View$ideas = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$html$Html_Attributes$class('ideas')
+			]),
 		A2(_elm_lang$core$List$map, _user$project$View$idea, model.ideas));
 };
 var _user$project$View$content = function (contents) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$html$Html_Attributes$class('content')
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[contents]));
 };
@@ -10145,9 +10164,9 @@ var _user$project$Update$app = F2(
 
 var _user$project$App$initIdeas = _elm_lang$core$Native_List.fromArray(
 	[
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, score: 0},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, score: 0},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, score: 0}
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738}
 	]);
 var _user$project$App$initLists = _elm_lang$core$Dict$fromList(
 	_elm_lang$core$Native_List.fromArray(

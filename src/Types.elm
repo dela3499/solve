@@ -30,7 +30,6 @@ type alias Idea =
   { title: String
   , content: String
   , created: Float -- ms timestamp
-  , score: Int
   }
 
 

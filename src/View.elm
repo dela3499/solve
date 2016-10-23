@@ -24,28 +24,36 @@ app model =
 
 content contents = 
   div
-    []
+    [ class "content" ]
     [ contents ]
 
 
 ideas model = 
   div 
-    []
+    [ class "ideas" ]
     (List.map idea model.ideas)
 
 
 idea: Idea -> Html Msg
 idea idea' = 
   div
-    []
+    [ class "idea" ]
     [ div
-        []
+        [ class "title bold" ]
         [ text idea'.title ]
     , div 
-        []
-        [ text idea'.content ]
+        [ class "text" ]
+        [ text (truncate 100 idea'.content) ]
     ]
 
+
+truncate limit string  = 
+  let n = String.length string
+  in 
+    if n > limit then
+      (String.left limit string) ++ "..."
+    else
+      string
 
 
 ideasHeader page = 

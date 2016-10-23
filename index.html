@@ -41,7 +41,13 @@
 		    // });		    
 
 		    // app.ports.randomSeed.send(Math.floor(Math.random()*0xFFFFFFFF))    	
-
+			window.addEventListener("load",function() {
+				// Set a timeout...
+				setTimeout(function(){
+					// Hide the address bar!
+					window.scrollTo(0, 1);
+				}, 0);
+			});
 		</script>
 	</body>
 

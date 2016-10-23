@@ -10282,7 +10282,7 @@ var _user$project$View$newIdeaHeaderBottom = function (model) {
 			_elm_lang$core$Native_List.fromArray(
 				[
 					A2(
-					_elm_lang$html$Html$span,
+					_elm_lang$html$Html$div,
 					_elm_lang$core$Native_List.fromArray(
 						[]),
 					_elm_lang$core$Native_List.fromArray(
@@ -10402,7 +10402,60 @@ var _user$project$View$newIdeaPage = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_user$project$View$newIdeaHeaderTop(model),
-						_user$project$View$newIdeaHeaderBottom(model)
+						_user$project$View$newIdeaHeaderBottom(model),
+						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('content'),
+								_elm_lang$html$Html_Attributes$style(
+								_elm_lang$core$Native_List.fromArray(
+									[
+										{
+										ctor: '_Tuple2',
+										_0: 'top',
+										_1: _user$project$Util$px(
+											_user$project$View$headerHeight(model))
+									}
+									]))
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_elm_lang$html$Html$div,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class('title')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$html$Html$input,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$placeholder('Title')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[])),
+										A2(
+										_elm_lang$html$Html$i,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$html$Html_Attributes$class('fa fa-times-circle')
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[]))
+									])),
+								A2(
+								_elm_lang$html$Html$textarea,
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$html$Html_Attributes$class('text'),
+										_elm_lang$html$Html_Attributes$placeholder('Describe your idea')
+									]),
+								_elm_lang$core$Native_List.fromArray(
+									[]))
+							]))
 					]))
 			]));
 };

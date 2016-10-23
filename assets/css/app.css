@@ -41,7 +41,7 @@ body * {
 	bottom: 180px;
 }
 
-input {
+input, textarea {
 	border: none;
 	outline: none;
 }

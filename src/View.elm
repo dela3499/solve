@@ -1,6 +1,6 @@
 module View exposing (..)
 
-import Html exposing (Html, text, div, span, a, img, p, i, input, table, tr, td)
+import Html exposing (Html, text, textarea, div, span, a, img, p, i, input, table, tr, td)
 import Html.App as Html
 import Html.Events exposing (onClick, onInput, onBlur, onFocus)
 import Html.Attributes exposing (..)
@@ -68,6 +68,27 @@ newIdeaPage model =
         ]
         [ newIdeaHeaderTop model
         , newIdeaHeaderBottom model
+        , div
+            [ class "content" 
+            , style [ ("top", model |> headerHeight |> px) ]
+            ]
+            [ div 
+                [ class "title" ] -- need to add active thing here. 
+                [ input 
+                    [ placeholder "Title"
+                    ]
+                    []
+                , i 
+                    [ class "fa fa-times-circle" ]
+                    []
+                ]
+            , textarea
+                [ class "text"
+                , placeholder "Describe your idea"
+                ]
+                []
+            ]
+
         ]
     ]
           
@@ -122,9 +143,6 @@ newIdeaHeaderBottom model =
         , i   
             [ class "fa fa-refresh" ]
             []
-        --, i   
-        --    [ class "fa fa-question-circle" ]
-        --    []
         ]
       )      
 

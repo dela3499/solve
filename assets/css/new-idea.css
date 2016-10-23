@@ -1,0 +1,35 @@
+.new-idea .content {
+	z-index: -1;
+}
+
+.new-idea textarea.text,
+.new-idea .title {
+	padding: 50px;
+	width: 100%;
+}
+
+.new-idea .title {
+	border-bottom: 5px solid rgba(0,0,0,0.2);
+	padding-top: 40px;
+	padding-bottom: 30px;
+}
+
+.new-idea .title input {
+	width: 100%;
+}
+
+.new-idea .title i {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 45px;
+	display: none;
+}
+
+.new-idea .title.active i {
+	display: block;
+}
+
+.new-idea textarea.text {
+	height: 100%;
+}

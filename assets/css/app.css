@@ -34,3 +34,8 @@ body * {
 	top: 120px;
 	bottom: 180px;
 }
+
+input {
+	border: none;
+	outline: none;
+}

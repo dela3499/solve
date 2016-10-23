@@ -16,7 +16,8 @@ app: Model -> Html Msg
 app model =
   div 
     [ id "app" ] 
-    [ ideasHeader model.page
+    [ searchHeader model.page 
+    --, ideasHeader model.page
     , content (ideas model)
     , footerMenu model.page 
     ] 
@@ -79,6 +80,29 @@ ideasHeader page =
             []    
         ]
       )
+
+
+searchHeader page = 
+  let wrap html = 
+        div
+          [ class "wrapper" ]
+          [ html ]
+  in 
+    div 
+      [ class "search ideas header material" ]
+      (List.map wrap
+        [ i 
+            [ class "fa fa-angle-left" ]
+            []
+        , input
+            [ placeholder "Search ideas"
+            ]
+            []
+        , i
+            [ class "fa fa-times-circle" ]
+            []
+        ]
+      )      
 
 
 footerMenu page = 

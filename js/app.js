@@ -10005,6 +10005,54 @@ var _user$project$View$footerMenu = function (page) {
 			]),
 		A2(_elm_lang$core$List$map, createButton, buttons));
 };
+var _user$project$View$searchHeader = function (page) {
+	var wrap = function (html) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('wrapper')
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[html]));
+	};
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('search ideas header material')
+			]),
+		A2(
+			_elm_lang$core$List$map,
+			wrap,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$i,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('fa fa-angle-left')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[])),
+					A2(
+					_elm_lang$html$Html$input,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$placeholder('Search ideas')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[])),
+					A2(
+					_elm_lang$html$Html$i,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('fa fa-times-circle')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[]))
+				])));
+};
 var _user$project$View$ideasHeader = function (page) {
 	var wrap = function (html) {
 		return A2(
@@ -10149,7 +10197,7 @@ var _user$project$View$app = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_user$project$View$ideasHeader(model.page),
+				_user$project$View$searchHeader(model.page),
 				_user$project$View$content(
 				_user$project$View$ideas(model)),
 				_user$project$View$footerMenu(model.page)

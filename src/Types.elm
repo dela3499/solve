@@ -7,6 +7,7 @@ import Random.Pcg
 
 type alias Model = 
   { lists: Dict String List'
+  , ideas: List Idea
   , comboLists1: ListSelection
   , comboLists2: ListSelection
   , page: Page
@@ -19,9 +20,17 @@ type alias Model =
 
 
 type alias List' = 
-  { name: String
+  { title: String
   , items: List String
-  , created: Float -- millisecond timestamp
+  , created: Float -- ms timestamp
+  }
+
+
+type alias Idea = 
+  { title: String
+  , content: String
+  , created: Float -- ms timestamp
+  , score: Int
   }
 
 

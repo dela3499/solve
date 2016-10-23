@@ -9919,13 +9919,34 @@ var _shmookey$cmd_extra$Cmd_Extra$message = function (x) {
 		_elm_lang$core$Task$succeed(x));
 };
 
-var _user$project$Types$Model = F9(
-	function (a, b, c, d, e, f, g, h, i) {
-		return {lists: a, comboLists1: b, comboLists2: c, page: d, editListName: e, editListItems: f, editListItem: g, seed: h, t: i};
-	});
+var _user$project$Types$Model = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return {lists: a, ideas: b, comboLists1: c, comboLists2: d, page: e, editListName: f, editListItems: g, editListItem: h, seed: i, t: j};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
 var _user$project$Types$List$ = F3(
 	function (a, b, c) {
-		return {name: a, items: b, created: c};
+		return {title: a, items: b, created: c};
+	});
+var _user$project$Types$Idea = F4(
+	function (a, b, c, d) {
+		return {title: a, content: b, created: c, score: d};
 	});
 var _user$project$Types$NoMsg = {ctor: 'NoMsg'};
 var _user$project$Types$Ideas = {ctor: 'Ideas'};
@@ -9939,108 +9960,179 @@ var _user$project$Util$downArrow = _jasonmahr$html_escape_sequences$Unicode$text
 var _user$project$Util$upArrow = _jasonmahr$html_escape_sequences$Unicode$text$('&#8593;');
 
 var _user$project$View$footerMenu = function (page) {
+	var createButton = function (_p0) {
+		var _p1 = _p0;
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('button')
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$i,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class(
+							A2(_elm_lang$core$Basics_ops['++'], 'fa ', _p1._1))
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[])),
+					A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('label')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text(_p1._0)
+						]))
+				]));
+	};
+	var buttons = _elm_lang$core$Native_List.fromArray(
+		[
+			{ctor: '_Tuple2', _0: 'Ideas', _1: 'fa-lightbulb-o'},
+			{ctor: '_Tuple2', _0: 'Stats', _1: 'fa-pie-chart'},
+			{ctor: '_Tuple2', _0: 'Settings', _1: 'fa-cog'}
+		]);
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
 			[
-				A2(
-				_elm_lang$html$Html$i,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('fa fa-lightbulb-o')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[])),
-				A2(
-				_elm_lang$html$Html$i,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('fa fa-pie-chart')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[])),
-				A2(
-				_elm_lang$html$Html$i,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('fa fa-cog')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[]))
-			]));
+				_elm_lang$html$Html_Attributes$class('footer material')
+			]),
+		A2(_elm_lang$core$List$map, createButton, buttons));
 };
-var _user$project$View$headerMenu = function (model) {
+var _user$project$View$ideasHeader = function (page) {
+	var wrap = function (html) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('wrapper')
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[html]));
+	};
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('ideas header material')
+			]),
+		A2(
+			_elm_lang$core$List$map,
+			wrap,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$i,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('fa fa-search')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[])),
+					A2(
+					_elm_lang$html$Html$span,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('medium')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text('Sort by')
+						])),
+					A2(
+					_elm_lang$html$Html$span,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('bold medium')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text('score')
+						])),
+					A2(
+					_elm_lang$html$Html$span,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('arrow medium')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[_user$project$Util$upArrow])),
+					A2(
+					_elm_lang$html$Html$i,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('fa fa-pencil-square-o')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[])),
+					A2(
+					_elm_lang$html$Html$i,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('fa fa-trash-o')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[]))
+				])));
+};
+var _user$project$View$idea = function (idea$) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				A2(
-				_elm_lang$html$Html$i,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('fa fa-search')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[])),
 				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[]),
 				_elm_lang$core$Native_List.fromArray(
 					[
-						A2(
-						_elm_lang$html$Html$span,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Sort by')
-							])),
-						A2(
-						_elm_lang$html$Html$span,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('score')
-							])),
-						A2(
-						_elm_lang$html$Html$span,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
-						_elm_lang$core$Native_List.fromArray(
-							[_user$project$Util$upArrow])),
-						A2(
-						_elm_lang$html$Html$i,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$class('fa fa-trash-o')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$i,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$class('fa fa-pencil-square-o')
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[]))
+						_elm_lang$html$Html$text(idea$.title)
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(idea$.content)
 					]))
 			]));
 };
-var _user$project$View$app = function (model) {
+var _user$project$View$ideas = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		A2(_elm_lang$core$List$map, _user$project$View$idea, model.ideas));
+};
+var _user$project$View$content = function (contents) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[]),
 		_elm_lang$core$Native_List.fromArray(
+			[contents]));
+};
+var _user$project$View$app = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
 			[
-				_user$project$View$headerMenu(model.page),
+				_elm_lang$html$Html_Attributes$id('app')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_user$project$View$ideasHeader(model.page),
+				_user$project$View$content(
+				_user$project$View$ideas(model)),
 				_user$project$View$footerMenu(model.page)
 			]));
 };
@@ -10051,11 +10143,18 @@ var _user$project$Update$app = F2(
 		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 	});
 
+var _user$project$App$initIdeas = _elm_lang$core$Native_List.fromArray(
+	[
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, score: 0},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, score: 0},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, score: 0}
+	]);
 var _user$project$App$initLists = _elm_lang$core$Dict$fromList(
 	_elm_lang$core$Native_List.fromArray(
 		[]));
 var _user$project$App$initModel = {
 	page: _user$project$Types$Ideas,
+	ideas: _user$project$App$initIdeas,
 	lists: _user$project$App$initLists,
 	comboLists1: _user$project$Types$All,
 	comboLists2: _user$project$Types$All,

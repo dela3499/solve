@@ -1,0 +1,11 @@
+body {
+	font-family: Arial;
+	margin: 0px;
+	padding: 0px;
+	font-size: 60px;
+
+   	text-size-adjust: 100%; 
+    -ms-text-size-adjust: 100%; 
+    -moz-text-size-adjust: 100%; 
+    -webkit-text-size-adjust: 100%;	
+}

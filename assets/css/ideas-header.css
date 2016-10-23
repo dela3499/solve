@@ -1,27 +1,18 @@
-/*Search*/
-.ideas.header .wrapper:nth-of-type(1) {
+.ideas.header .search.wrapper {
 	padding-left: 30px;
 	padding-right: 50px;
 }
 
-/*Sort by*/
-.ideas.header .wrapper:nth-of-type(2) {
-	padding-right: 12px;
-}
-
-/* Sort by field */
-.ideas.header .wrapper:nth-of-type(3) {
+.ideas.header .date.wrapper {
 	padding-right: 10px;
 }
 
-/* New idea */
-.ideas.header .wrapper:nth-of-type(5) {
+.ideas.header .pencil.wrapper {
 	float: right;
 	padding-right: 30px;
 }
 
-/* Trash */
-.ideas.header .wrapper:nth-of-type(6) { 
+.ideas.header .trash.wrapper { 
 	float: right;
 	padding-right: 40px;
 }

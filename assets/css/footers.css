@@ -26,3 +26,7 @@
 .footer .label {
 	font-size: 40px;
 }
+
+.footer .active {
+	color: #00aa88;
+}

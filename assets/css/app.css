@@ -1,3 +1,10 @@
+/*
+
+color: #00aa88;
+
+*/
+
+
 body {
 	margin: 0px;
 	padding: 0px;
@@ -31,7 +38,6 @@ body * {
 .content {
 	position: absolute;
 	width: 100%;
-	top: 120px;
 	bottom: 180px;
 }
 

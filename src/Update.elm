@@ -24,8 +24,19 @@ app msg model =
     NoMsg -> 
       (model, Cmd.none)
     
-    --SetPage page -> 
-    --  ({ model | page = page }, Cmd.none)
+    SetPage page -> 
+      ({ model | page = page }, Cmd.none)
+
+    SetSearch search -> 
+      ({ model | search = search }, Cmd.none)
+
+    ToggleSort -> 
+      let newDirection = 
+            case model.sort of 
+              Ascending -> Descending
+              Descending -> Ascending
+      in 
+        ({ model | sort = newDirection }, Cmd.none)
 
     --SetList listId -> 
     --  let list = Dict.get listId model.lists

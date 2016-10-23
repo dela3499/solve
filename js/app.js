@@ -9929,7 +9929,11 @@ var _user$project$Types$Model = function (a) {
 							return function (h) {
 								return function (i) {
 									return function (j) {
-										return {lists: a, ideas: b, comboLists1: c, comboLists2: d, page: e, editListName: f, editListItems: g, editListItem: h, seed: i, t: j};
+										return function (k) {
+											return function (l) {
+												return {lists: a, ideas: b, comboLists1: c, comboLists2: d, page: e, editListName: f, editListItems: g, editListItem: h, seed: i, t: j, search: k, sort: l};
+											};
+										};
 									};
 								};
 							};
@@ -9948,25 +9952,71 @@ var _user$project$Types$Idea = F3(
 	function (a, b, c) {
 		return {title: a, content: b, created: c};
 	});
+var _user$project$Types$ToggleSort = {ctor: 'ToggleSort'};
+var _user$project$Types$SetSearch = function (a) {
+	return {ctor: 'SetSearch', _0: a};
+};
+var _user$project$Types$SetPage = function (a) {
+	return {ctor: 'SetPage', _0: a};
+};
 var _user$project$Types$NoMsg = {ctor: 'NoMsg'};
+var _user$project$Types$NewIdea = {ctor: 'NewIdea'};
+var _user$project$Types$Settings = {ctor: 'Settings'};
+var _user$project$Types$Statistics = {ctor: 'Statistics'};
 var _user$project$Types$Ideas = {ctor: 'Ideas'};
 var _user$project$Types$Some = function (a) {
 	return {ctor: 'Some', _0: a};
 };
 var _user$project$Types$None = {ctor: 'None'};
 var _user$project$Types$All = {ctor: 'All'};
+var _user$project$Types$Descending = {ctor: 'Descending'};
+var _user$project$Types$Ascending = {ctor: 'Ascending'};
 
-var _user$project$Util$downArrow = _jasonmahr$html_escape_sequences$Unicode$text$('&#8595;');
-var _user$project$Util$upArrow = _jasonmahr$html_escape_sequences$Unicode$text$('&#8593;');
-
-var _user$project$View$footerMenu = function (page) {
-	var createButton = function (_p0) {
-		var _p1 = _p0;
+var _user$project$Util$px = function (n) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(n),
+		'px');
+};
+var _user$project$Util$wrap = F2(
+	function (class$, html) {
 		return A2(
 			_elm_lang$html$Html$div,
 			_elm_lang$core$Native_List.fromArray(
 				[
-					_elm_lang$html$Html_Attributes$class('button')
+					_elm_lang$html$Html_Attributes$class(
+					A2(
+						_elm_lang$core$String$join,
+						' ',
+						_elm_lang$core$Native_List.fromArray(
+							['wrapper', class$])))
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[html]));
+	});
+var _user$project$Util$downArrow = _jasonmahr$html_escape_sequences$Unicode$text$('&#8595;');
+var _user$project$Util$upArrow = _jasonmahr$html_escape_sequences$Unicode$text$('&#8593;');
+
+var _user$project$View$footerMenu = function (currentPage) {
+	var createButton = function (_p0) {
+		var _p1 = _p0;
+		var _p2 = _p1._0;
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$classList(
+					_elm_lang$core$Native_List.fromArray(
+						[
+							{ctor: '_Tuple2', _0: 'button', _1: true},
+							{
+							ctor: '_Tuple2',
+							_0: 'active',
+							_1: _elm_lang$core$Native_Utils.eq(currentPage, _p2)
+						}
+						])),
+					_elm_lang$html$Html_Events$onClick(
+					_user$project$Types$SetPage(_p2))
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
@@ -9975,7 +10025,7 @@ var _user$project$View$footerMenu = function (page) {
 					_elm_lang$core$Native_List.fromArray(
 						[
 							_elm_lang$html$Html_Attributes$class(
-							A2(_elm_lang$core$Basics_ops['++'], 'fa ', _p1._1))
+							A2(_elm_lang$core$Basics_ops['++'], 'fa ', _p1._2))
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[])),
@@ -9987,15 +10037,15 @@ var _user$project$View$footerMenu = function (page) {
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html$text(_p1._0)
+							_elm_lang$html$Html$text(_p1._1)
 						]))
 				]));
 	};
 	var buttons = _elm_lang$core$Native_List.fromArray(
 		[
-			{ctor: '_Tuple2', _0: 'Ideas', _1: 'fa-lightbulb-o'},
-			{ctor: '_Tuple2', _0: 'Stats', _1: 'fa-pie-chart'},
-			{ctor: '_Tuple2', _0: 'Settings', _1: 'fa-cog'}
+			{ctor: '_Tuple3', _0: _user$project$Types$Ideas, _1: 'Ideas', _2: 'fa-lightbulb-o'},
+			{ctor: '_Tuple3', _0: _user$project$Types$Statistics, _1: 'Stats', _2: 'fa-pie-chart'},
+			{ctor: '_Tuple3', _0: _user$project$Types$Settings, _1: 'Settings', _2: 'fa-cog'}
 		]);
 	return A2(
 		_elm_lang$html$Html$div,
@@ -10005,7 +10055,7 @@ var _user$project$View$footerMenu = function (page) {
 			]),
 		A2(_elm_lang$core$List$map, createButton, buttons));
 };
-var _user$project$View$searchHeader = function (page) {
+var _user$project$View$searchHeader = function (model) {
 	var wrap = function (html) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -10031,7 +10081,9 @@ var _user$project$View$searchHeader = function (page) {
 					_elm_lang$html$Html$i,
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html_Attributes$class('fa fa-angle-left')
+							_elm_lang$html$Html_Attributes$class('fa fa-angle-left'),
+							_elm_lang$html$Html_Events$onClick(
+							_user$project$Types$SetSearch(false))
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[])),
@@ -10053,33 +10105,37 @@ var _user$project$View$searchHeader = function (page) {
 						[]))
 				])));
 };
-var _user$project$View$ideasHeader = function (page) {
-	var wrap = function (html) {
-		return A2(
-			_elm_lang$html$Html$div,
-			_elm_lang$core$Native_List.fromArray(
-				[
-					_elm_lang$html$Html_Attributes$class('wrapper')
-				]),
-			_elm_lang$core$Native_List.fromArray(
-				[html]));
-	};
+var _user$project$View$headerRowHeight = 120;
+var _user$project$View$headerHeight = function (model) {
+	var _p3 = model.page;
+	if (_p3.ctor === 'NewIdea') {
+		return 2 * _user$project$View$headerRowHeight;
+	} else {
+		return _user$project$View$headerRowHeight;
+	}
+};
+var _user$project$View$ideasHeader = function (model) {
+	var classes = _elm_lang$core$Native_List.fromArray(
+		['search', 'date', 'arrow', 'pencil', 'trash']);
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_elm_lang$html$Html_Attributes$class('ideas header material')
 			]),
-		A2(
-			_elm_lang$core$List$map,
-			wrap,
+		A3(
+			_elm_lang$core$List$map2,
+			_user$project$Util$wrap,
+			classes,
 			_elm_lang$core$Native_List.fromArray(
 				[
 					A2(
 					_elm_lang$html$Html$i,
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html_Attributes$class('fa fa-search')
+							_elm_lang$html$Html_Attributes$class('fa fa-search'),
+							_elm_lang$html$Html_Events$onClick(
+							_user$project$Types$SetSearch(true))
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[])),
@@ -10087,35 +10143,38 @@ var _user$project$View$ideasHeader = function (page) {
 					_elm_lang$html$Html$span,
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html_Attributes$class('medium')
+							_elm_lang$html$Html_Attributes$class('bold medium'),
+							_elm_lang$html$Html_Events$onClick(_user$project$Types$ToggleSort)
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html$text('Sort by')
+							_elm_lang$html$Html$text('date')
 						])),
 					A2(
 					_elm_lang$html$Html$span,
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html_Attributes$class('bold medium')
+							_elm_lang$html$Html_Attributes$class('arrow medium'),
+							_elm_lang$html$Html_Events$onClick(_user$project$Types$ToggleSort)
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html$text('score')
+							function () {
+							var _p4 = model.sort;
+							if (_p4.ctor === 'Ascending') {
+								return _user$project$Util$upArrow;
+							} else {
+								return _user$project$Util$downArrow;
+							}
+						}()
 						])),
-					A2(
-					_elm_lang$html$Html$span,
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html_Attributes$class('arrow medium')
-						]),
-					_elm_lang$core$Native_List.fromArray(
-						[_user$project$Util$upArrow])),
 					A2(
 					_elm_lang$html$Html$i,
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html_Attributes$class('fa fa-pencil-square-o')
+							_elm_lang$html$Html_Attributes$class('fa fa-pencil-square-o'),
+							_elm_lang$html$Html_Events$onClick(
+							_user$project$Types$SetPage(_user$project$Types$NewIdea))
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[])),
@@ -10178,15 +10237,217 @@ var _user$project$View$ideas = function (model) {
 			]),
 		A2(_elm_lang$core$List$map, _user$project$View$idea, model.ideas));
 };
-var _user$project$View$content = function (contents) {
+var _user$project$View$content = F2(
+	function (top, contents) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('content'),
+					_elm_lang$html$Html_Attributes$style(
+					_elm_lang$core$Native_List.fromArray(
+						[
+							{
+							ctor: '_Tuple2',
+							_0: 'top',
+							_1: _user$project$Util$px(top)
+						}
+						]))
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[contents]));
+	});
+var _user$project$View$newIdeaHeaderBottom = function (model) {
+	var classes = _elm_lang$core$Native_List.fromArray(
+		['combo', 'refresh', 'help']);
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html_Attributes$class('content')
+				_elm_lang$html$Html_Attributes$class('header-row'),
+				_elm_lang$html$Html_Attributes$style(
+				_elm_lang$core$Native_List.fromArray(
+					[
+						{
+						ctor: '_Tuple2',
+						_0: 'height',
+						_1: _user$project$Util$px(_user$project$View$headerRowHeight)
+					}
+					]))
+			]),
+		A3(
+			_elm_lang$core$List$map2,
+			_user$project$Util$wrap,
+			classes,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$span,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							A2(
+							_elm_lang$html$Html$div,
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html_Attributes$class('medium item1')
+								]),
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html$text('Horse basket')
+								])),
+							A2(
+							_elm_lang$html$Html$div,
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html_Attributes$class('medium item2')
+								]),
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html$text('Bacon')
+								]))
+						])),
+					A2(
+					_elm_lang$html$Html$i,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('fa fa-refresh')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[]))
+				])));
+};
+var _user$project$View$newIdeaHeaderTop = function (model) {
+	var classes = _elm_lang$core$Native_List.fromArray(
+		['cancel', 'label', 'save']);
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('header-row'),
+				_elm_lang$html$Html_Attributes$style(
+				_elm_lang$core$Native_List.fromArray(
+					[
+						{
+						ctor: '_Tuple2',
+						_0: 'height',
+						_1: _user$project$Util$px(_user$project$View$headerRowHeight)
+					}
+					]))
+			]),
+		A3(
+			_elm_lang$core$List$map2,
+			_user$project$Util$wrap,
+			classes,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$span,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('medium'),
+							_elm_lang$html$Html_Events$onClick(
+							_user$project$Types$SetPage(_user$project$Types$Ideas))
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text('Cancel')
+						])),
+					A2(
+					_elm_lang$html$Html$span,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text('New Idea')
+						])),
+					A2(
+					_elm_lang$html$Html$span,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('medium bold')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text('Save')
+						]))
+				])));
+};
+var _user$project$View$newIdeaPage = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('new-idea page')
 			]),
 		_elm_lang$core$Native_List.fromArray(
-			[contents]));
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('new-idea header material'),
+						_elm_lang$html$Html_Attributes$style(
+						_elm_lang$core$Native_List.fromArray(
+							[
+								{
+								ctor: '_Tuple2',
+								_0: 'height',
+								_1: _user$project$Util$px(
+									_user$project$View$headerHeight(model))
+							}
+							]))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_user$project$View$newIdeaHeaderTop(model),
+						_user$project$View$newIdeaHeaderBottom(model)
+					]))
+			]));
+};
+var _user$project$View$settingsPage = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('settings page')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html$text('Settings'),
+				_user$project$View$footerMenu(model.page)
+			]));
+};
+var _user$project$View$statisticsPage = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('statistics page')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html$text('Statistics'),
+				_user$project$View$footerMenu(model.page)
+			]));
+};
+var _user$project$View$ideasPage = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('ideas page')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				model.search ? _user$project$View$searchHeader(model) : _user$project$View$ideasHeader(model),
+				A2(
+				_user$project$View$content,
+				_user$project$View$headerHeight(model),
+				_user$project$View$ideas(model)),
+				_user$project$View$footerMenu(model.page)
+			]));
 };
 var _user$project$View$app = function (model) {
 	return A2(
@@ -10197,17 +10458,61 @@ var _user$project$View$app = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_user$project$View$searchHeader(model.page),
-				_user$project$View$content(
-				_user$project$View$ideas(model)),
-				_user$project$View$footerMenu(model.page)
+				function () {
+				var _p5 = model.page;
+				switch (_p5.ctor) {
+					case 'Ideas':
+						return _user$project$View$ideasPage(model);
+					case 'Statistics':
+						return _user$project$View$statisticsPage(model);
+					case 'Settings':
+						return _user$project$View$settingsPage(model);
+					default:
+						return _user$project$View$newIdeaPage(model);
+				}
+			}()
 			]));
 };
 
 var _user$project$Update$app = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		switch (_p0.ctor) {
+			case 'NoMsg':
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'SetPage':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{page: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SetSearch':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{search: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var newDirection = function () {
+					var _p1 = model.sort;
+					if (_p1.ctor === 'Ascending') {
+						return _user$project$Types$Descending;
+					} else {
+						return _user$project$Types$Ascending;
+					}
+				}();
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{sort: newDirection}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
 	});
 
 var _user$project$App$initIdeas = _elm_lang$core$Native_List.fromArray(
@@ -10220,7 +10525,9 @@ var _user$project$App$initLists = _elm_lang$core$Dict$fromList(
 	_elm_lang$core$Native_List.fromArray(
 		[]));
 var _user$project$App$initModel = {
-	page: _user$project$Types$Ideas,
+	page: _user$project$Types$NewIdea,
+	search: false,
+	sort: _user$project$Types$Ascending,
 	ideas: _user$project$App$initIdeas,
 	lists: _user$project$App$initLists,
 	comboLists1: _user$project$Types$All,

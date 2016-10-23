@@ -16,6 +16,8 @@ type alias Model =
   , editListItem: Maybe String
   , seed: Random.Pcg.Seed
   , t: Float
+  , search: Bool
+  , sort: Direction
   }
 
 
@@ -35,16 +37,27 @@ type alias Idea =
 
 type Msg 
   = NoMsg
+  | SetPage Page
+  | SetSearch Bool
+  | ToggleSort
 
 
 type Page
   = Ideas
+  | Statistics
+  | Settings
+  | NewIdea
 
 
 type ListSelection 
   = All
   | None
   | Some (Set String)
+
+
+type Direction 
+  = Ascending 
+  | Descending
 
 
   --| SetPage Page

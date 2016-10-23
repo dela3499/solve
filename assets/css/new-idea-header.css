@@ -1,0 +1,76 @@
+.new-idea.header .wrapper {
+	padding: 30px;
+}
+
+.new-idea .header-row {
+	display: inline-block;
+	width: 100%;
+}
+
+/* Top row */
+
+.new-idea.header .header-row:first-of-type * {
+	width: 33.3%;
+	box-sizing: border-box;
+}
+
+.new-idea.header .cancel * {
+	color: #00aa88;
+}
+
+.new-idea.header .label {
+	text-align: center;
+}
+
+.new-idea.header .save {
+	text-align: right;
+}
+
+.new-idea.header .save * {
+	color: #00aa88;
+}
+
+/* Bottom row */
+
+.new-idea.header .combo {
+	box-sizing: border-box;
+	position: relative;
+	height: 70%;
+	width: 85%;
+	margin: 20px;
+	margin-left: 30px;
+	margin-top: 10px;
+	padding: 0;
+}
+
+.new-idea.header .combo div {
+	width: 100%;
+}
+
+.new-idea.header .combo .item1, 
+.new-idea.header .combo .item2 {
+	background: #00aa88;
+	padding: 10px 30px 15px 30px;
+	color: white;
+	width: 49%;
+	float: left;
+	overflow: hidden;
+	white-space: nowrap;
+	box-sizing: border-box;
+	text-align: center
+
+}
+
+.new-idea.header .combo .item1 {
+	border-radius: 22px 0px 0px 22px;
+}
+
+.new-idea.header .combo .item2 {
+	border-radius: 0px 22px 22px 0px;
+	margin-left: 3px;
+}
+
+.new-idea.header .refresh {
+	padding-left: 0;
+	padding-top: 20px;
+}

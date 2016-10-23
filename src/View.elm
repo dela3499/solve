@@ -9,23 +9,131 @@ import Set exposing (Set)
 import Dict exposing (Dict)
 import String
 import Types exposing (..)
-import Util
+import Util exposing (px)
 
 
 app: Model -> Html Msg
 app model =
   div 
     [ id "app" ] 
-    [ searchHeader model.page 
-    --, ideasHeader model.page
-    , content (ideas model)
-    , footerMenu model.page 
+    [ case model.page of 
+        Ideas -> 
+          ideasPage model
+
+        Statistics -> 
+          statisticsPage model
+
+        Settings -> 
+          settingsPage model
+
+        NewIdea -> 
+          newIdeaPage model
     ] 
 
 
-content contents = 
+ideasPage model =
   div
-    [ class "content" ]
+    [ class "ideas page" ]
+    [ if model.search then
+        searchHeader model 
+      else
+        ideasHeader model
+    , content (headerHeight model) (ideas model)
+    , footerMenu model.page
+    ]
+
+
+statisticsPage model = 
+  div
+    [ class "statistics page" ]
+    [ text "Statistics"
+    , footerMenu model.page
+    ] 
+
+
+settingsPage model = 
+  div
+    [ class "settings page" ]
+    [ text "Settings"
+    , footerMenu model.page
+    ]    
+     
+
+newIdeaPage model = 
+  div
+    [ class "new-idea page" ]
+    [ div
+        [ class "new-idea header material" 
+        , style [ ("height", px (headerHeight model)) ]
+        ]
+        [ newIdeaHeaderTop model
+        , newIdeaHeaderBottom model
+        ]
+    ]
+          
+
+newIdeaHeaderTop model = 
+  let classes = 
+        [ "cancel"
+        , "label"
+        , "save"
+        ]
+  in 
+    div 
+      [ class "header-row" 
+      , style [("height", px headerRowHeight)]
+      ]
+      (List.map2 Util.wrap classes
+        [ span 
+            [ class "medium"
+            , onClick (SetPage Ideas) ] 
+            [ text "Cancel" ]
+        , span 
+            [] 
+            [ text "New Idea" ]
+        , span 
+            [ class "medium bold" ] 
+            [ text "Save" ]
+        ]
+      )
+
+
+newIdeaHeaderBottom model = 
+  let classes = 
+        [ "combo"
+        , "refresh"
+        , "help"
+        ]
+  in 
+    div 
+      [ class "header-row" 
+      , style [("height", px headerRowHeight)]
+      ]
+      (List.map2 Util.wrap classes
+        [ div
+            [] 
+            [ div 
+                [ class "medium item1" ] 
+                [ text "Horse basket" ]
+            , div
+                [ class "medium item2" ]  
+                [ text "Bacon" ]
+            ]
+        , i   
+            [ class "fa fa-refresh" ]
+            []
+        --, i   
+        --    [ class "fa fa-question-circle" ]
+        --    []
+        ]
+      )      
+
+
+content top contents = 
+  div
+    [ class "content" 
+    , style [ ("top", px top) ]
+    ]
     [ contents ]
 
 
@@ -57,23 +165,40 @@ truncate limit string  =
       string
 
 
-ideasHeader page = 
-  let wrap html = 
-        div
-          [ class "wrapper" ]
-          [ html ]
+ideasHeader model = 
+  let classes = 
+        [ "search"
+        , "date"
+        , "arrow"
+        , "pencil"
+        , "trash"
+        ]
   in 
     div 
       [ class "ideas header material" ]
-      (List.map wrap
+      (List.map2 Util.wrap classes
         [ i 
-            [ class "fa fa-search" ]
+            [ class "fa fa-search" 
+            , onClick (SetSearch True)
+            ]
             []
-        , span [ class "medium" ] [ text "Sort by" ]
-        , span [ class "bold medium" ] [ text "score" ]
-        , span [ class "arrow medium" ] [ Util.upArrow ]
+        , span 
+            [ class "bold medium" 
+            , onClick ToggleSort
+            ] 
+            [ text "date" ]
+        , span 
+            [ class "arrow medium" 
+            , onClick ToggleSort
+            ] 
+            [ case model.sort of
+                Ascending -> Util.upArrow 
+                Descending -> Util.downArrow 
+            ]
         , i 
-            [ class "fa fa-pencil-square-o" ]
+            [ class "fa fa-pencil-square-o" 
+            , onClick (SetPage NewIdea)
+            ]
             []       
         , i 
             [ class "fa fa-trash-o" ]
@@ -82,7 +207,17 @@ ideasHeader page =
       )
 
 
-searchHeader page = 
+headerRowHeight = 
+  120
+
+
+headerHeight model = 
+  case model.page of
+    NewIdea -> 2 * headerRowHeight
+    _ -> headerRowHeight
+
+
+searchHeader model = 
   let wrap html = 
         div
           [ class "wrapper" ]
@@ -92,7 +227,9 @@ searchHeader page =
       [ class "search ideas header material" ]
       (List.map wrap
         [ i 
-            [ class "fa fa-angle-left" ]
+            [ class "fa fa-angle-left" 
+            , onClick (SetSearch False)
+            ]
             []
         , input
             [ placeholder "Search ideas"
@@ -105,15 +242,20 @@ searchHeader page =
       )      
 
 
-footerMenu page = 
+footerMenu currentPage = 
   let buttons = 
-        [ ("Ideas", "fa-lightbulb-o")
-        , ("Stats", "fa-pie-chart")
-        , ("Settings", "fa-cog")
+        [ (Ideas, "Ideas", "fa-lightbulb-o")
+        , (Statistics, "Stats", "fa-pie-chart")
+        , (Settings, "Settings", "fa-cog")
         ]
-      createButton (label, icon) = 
+      createButton (page, label, icon) = 
         div
-          [ class "button" ]
+          [ classList
+              [ ("button", True)
+              , ("active", currentPage == page ) 
+              ]
+          , onClick (SetPage page)  
+          ]
           [ i
               [ class ("fa " ++ icon) ]
               []

@@ -37,7 +37,9 @@ subscriptions model =
 
 initModel: Model
 initModel = 
-  { page = Ideas
+  { page = NewIdea
+  , search = False
+  , sort = Ascending
   , ideas = initIdeas
   , lists = initLists
   , comboLists1 = All

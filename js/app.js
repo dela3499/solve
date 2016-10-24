@@ -9933,7 +9933,11 @@ var _user$project$Types$Model = function (a) {
 											return function (l) {
 												return function (m) {
 													return function (n) {
-														return {lists: a, ideas: b, selectedLists1: c, selectedLists2: d, page: e, editListName: f, editListItems: g, editListItem: h, seed: i, t: j, search: k, sort: l, randomItem1: m, randomItem2: n};
+														return function (o) {
+															return function (p) {
+																return {lists: a, ideas: b, selectedLists1: c, selectedLists2: d, page: e, editListName: f, editListItems: g, editListItem: h, seed: i, t: j, search: k, sort: l, randomItem1: m, randomItem2: n, editIdeaTitle: o, editIdeaText: p};
+															};
+														};
 													};
 												};
 											};
@@ -9954,8 +9958,18 @@ var _user$project$Types$List$ = F4(
 	});
 var _user$project$Types$Idea = F4(
 	function (a, b, c, d) {
-		return {title: a, content: b, created: c, id: d};
+		return {title: a, text: b, created: c, id: d};
 	});
+var _user$project$Types$SetTime = function (a) {
+	return {ctor: 'SetTime', _0: a};
+};
+var _user$project$Types$SaveIdea = {ctor: 'SaveIdea'};
+var _user$project$Types$SetIdeaText = function (a) {
+	return {ctor: 'SetIdeaText', _0: a};
+};
+var _user$project$Types$SetIdeaTitle = function (a) {
+	return {ctor: 'SetIdeaTitle', _0: a};
+};
 var _user$project$Types$DrawRandomItems = {ctor: 'DrawRandomItems'};
 var _user$project$Types$ToggleSort = {ctor: 'ToggleSort'};
 var _user$project$Types$ClearAllLists = {ctor: 'ClearAllLists'};
@@ -10257,7 +10271,7 @@ var _user$project$View$idea = function (idea$) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html$text(
-						A2(_user$project$View$truncate, 100, idea$.content))
+						A2(_user$project$View$truncate, 100, idea$.text))
 					]))
 			]));
 };
@@ -10404,7 +10418,8 @@ var _user$project$View$newIdeaHeaderTop = function (model) {
 					_elm_lang$html$Html$span,
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html_Attributes$class('medium bold')
+							_elm_lang$html$Html_Attributes$class('medium bold'),
+							_elm_lang$html$Html_Events$onClick(_user$project$Types$SaveIdea)
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[
@@ -10471,7 +10486,8 @@ var _user$project$View$newIdeaPage = function (model) {
 										_elm_lang$html$Html$input,
 										_elm_lang$core$Native_List.fromArray(
 											[
-												_elm_lang$html$Html_Attributes$placeholder('Title')
+												_elm_lang$html$Html_Attributes$placeholder('Title'),
+												_elm_lang$html$Html_Events$onInput(_user$project$Types$SetIdeaTitle)
 											]),
 										_elm_lang$core$Native_List.fromArray(
 											[])),
@@ -10489,7 +10505,8 @@ var _user$project$View$newIdeaPage = function (model) {
 								_elm_lang$core$Native_List.fromArray(
 									[
 										_elm_lang$html$Html_Attributes$class('text'),
-										_elm_lang$html$Html_Attributes$placeholder('Describe your idea')
+										_elm_lang$html$Html_Attributes$placeholder('Describe your idea'),
+										_elm_lang$html$Html_Events$onInput(_user$project$Types$SetIdeaText)
 									]),
 								_elm_lang$core$Native_List.fromArray(
 									[]))
@@ -10869,7 +10886,7 @@ var _user$project$Update$app = F2(
 					default:
 						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
-			default:
+			case 'DrawRandomItems':
 				var item = function (list) {
 					return A2(
 						_mgold$elm_random_pcg$Random_Pcg$map,
@@ -10907,20 +10924,59 @@ var _user$project$Update$app = F2(
 						{randomItem1: item1, randomItem2: item2, seed: seed$}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'SetIdeaTitle':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{editIdeaTitle: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SetIdeaText':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{editIdeaText: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SaveIdea':
+				var _p6 = A2(_mgold$elm_random_pcg$Random_Pcg$step, _danyx23$elm_uuid$Uuid_Barebones$uuidStringGenerator, model.seed);
+				var id = _p6._0;
+				var seed = _p6._1;
+				var idea = {title: model.editIdeaTitle, text: model.editIdeaText, id: id, created: model.t};
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							ideas: A2(_elm_lang$core$List_ops['::'], idea, model.ideas)
+						}),
+					_1: _shmookey$cmd_extra$Cmd_Extra$message(
+						_user$project$Types$SetPage(_user$project$Types$Ideas))
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{t: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 
 var _user$project$App$initIdeas = _elm_lang$core$Native_List.fromArray(
 	[
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'}
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'},
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'},
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
+		{title: 'Google Earth tours', text: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'}
 	]);
 var _user$project$App$initLists = _elm_lang$core$Native_List.fromArray(
 	[
@@ -10975,10 +11031,12 @@ var _user$project$App$initModel = {
 	t: 0.0,
 	seed: _mgold$elm_random_pcg$Random_Pcg$initialSeed(123894123097),
 	randomItem1: '-',
-	randomItem2: '-'
+	randomItem2: '-',
+	editIdeaTitle: '',
+	editIdeaText: ''
 };
 var _user$project$App$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
+	return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _user$project$Types$SetTime);
 };
 var _user$project$App$initCmd = _shmookey$cmd_extra$Cmd_Extra$message(_user$project$Types$DrawRandomItems);
 var _user$project$App$main = {

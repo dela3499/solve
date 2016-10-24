@@ -20,6 +20,8 @@ type alias Model =
   , sort: Direction
   , randomItem1: String
   , randomItem2: String
+  , editIdeaTitle: String
+  , editIdeaText: String
   }
 
 
@@ -33,7 +35,7 @@ type alias List' =
 
 type alias Idea = 
   { title: String
-  , content: String
+  , text: String
   , created: Float -- ms timestamp
   , id: String
   }
@@ -48,6 +50,10 @@ type Msg
   | ClearAllLists
   | ToggleSort
   | DrawRandomItems
+  | SetIdeaTitle String
+  | SetIdeaText String
+  | SaveIdea
+  | SetTime Float
 
 
 type Page

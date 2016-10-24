@@ -170,6 +170,7 @@ newIdeaPage model =
                 [ class "title" ] -- need to add active thing here. 
                 [ input 
                     [ placeholder "Title"
+                    , onInput SetIdeaTitle
                     ]
                     []
                 , i 
@@ -179,6 +180,7 @@ newIdeaPage model =
             , textarea
                 [ class "text"
                 , placeholder "Describe your idea"
+                , onInput SetIdeaText
                 ]
                 []
             ]
@@ -207,7 +209,9 @@ newIdeaHeaderTop model =
             [] 
             [ text "New Idea" ]
         , span 
-            [ class "medium bold" ] 
+            [ class "medium bold" 
+            , onClick SaveIdea
+            ] 
             [ text "Save" ]
         ]
       )
@@ -270,7 +274,7 @@ idea idea' =
         [ text idea'.title ]
     , div 
         [ class "text" ]
-        [ text (truncate 100 idea'.content) ]
+        [ text (truncate 100 idea'.text) ]
     ]
 
 

@@ -94,7 +94,33 @@ app msg model =
             , seed = seed' 
          }, Cmd.none)
 
-        
+    SetIdeaTitle title -> 
+      ({ model | editIdeaTitle = title}, Cmd.none)
+
+    SetIdeaText text -> 
+      ({ model | editIdeaText = text}, Cmd.none)
+
+    SaveIdea -> -- handles new notes only. Different msg for edits.
+      let (id, seed) = 
+            Random.Pcg.step 
+              Uuid.Barebones.uuidStringGenerator 
+              model.seed
+          idea = 
+            { title = model.editIdeaTitle
+            , text = model.editIdeaText
+            , id = id
+            , created = model.t
+            }
+      in -- it's a bit sloppy to simply prepend. What if another list has the same id? 
+        ({ model | ideas = idea :: model.ideas }
+        , Cmd.Extra.message (SetPage Ideas)
+        )
+    -- Also need to handle clearing and setting inputs. Also need to clear 
+    -- temporary edit info after saving. 
+    SetTime time -> 
+      ({ model | t = time }, Cmd.none)
+
+
     --SetList listId -> 
     --  let list = Dict.get listId model.lists
     --  in case list of

@@ -35,7 +35,7 @@ initCmd =
 
 subscriptions: Model -> Sub Msg
 subscriptions model = 
-  Sub.none
+  Time.every Time.second SetTime
   --Ports.randomSeed (\int -> SetInitialSeed int)
 
 
@@ -56,6 +56,8 @@ initModel =
       Random.Pcg.initialSeed 123894123097 --replaced on start
   , randomItem1 = "-"
   , randomItem2 = "-"
+  , editIdeaTitle = ""
+  , editIdeaText = ""
   }
 
 
@@ -101,47 +103,47 @@ type alias List' =
 
 initIdeas = 
   [ { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ia"
     }
   , { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ib"
     }
   , { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ic"
     } 
   , { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ia"
     }
   , { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ib"
     }
   , { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ic"
     } 
   , { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ia"
     }
   , { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ib"
     }
   , { title = "Google Earth tours"
-    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , text = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
     , id = "Ic"
     } 

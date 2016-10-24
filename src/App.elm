@@ -12,7 +12,7 @@ import Keyboard
 import Time
 import Random.Pcg
 import Time
-
+import Cmd.Extra
 import Types exposing (..)
 import Util
 import View
@@ -22,11 +22,15 @@ import Update
 
 main = 
   Html.program
-    { init = ( initModel, Cmd.none )
+    { init = ( initModel, initCmd)
     , update = Update.app
     , view = View.app
     , subscriptions = subscriptions
     }
+
+
+initCmd = 
+  Cmd.Extra.message DrawRandomItems
 
 
 subscriptions: Model -> Sub Msg
@@ -37,7 +41,7 @@ subscriptions model =
 
 initModel: Model
 initModel = 
-  { page = SelectLists1
+  { page = NewIdea
   , search = False
   , sort = Ascending
   , ideas = initIdeas
@@ -50,8 +54,8 @@ initModel =
   , t = 0.0
   , seed = 
       Random.Pcg.initialSeed 123894123097 --replaced on start
-  , randomItem1 = ""
-  , randomItem2 = ""
+  , randomItem1 = "-"
+  , randomItem2 = "-"
   }
 
 

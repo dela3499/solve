@@ -80,7 +80,7 @@ app msg model =
               |> List.concat
           item list = 
             Random.Pcg.sample list
-              |> Random.Pcg.map (withDefault " ")
+              |> Random.Pcg.map (withDefault "-")
           items = 
             Random.Pcg.pair
               (item (getList model.selectedLists1))
@@ -94,7 +94,7 @@ app msg model =
             , seed = seed' 
          }, Cmd.none)
 
-
+        
     --SetList listId -> 
     --  let list = Dict.get listId model.lists
     --  in case list of

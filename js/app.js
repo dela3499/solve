@@ -10324,7 +10324,7 @@ var _user$project$View$newIdeaHeaderBottom = function (model) {
 							_elm_lang$html$Html$div,
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html_Attributes$class('medium item1'),
+									_elm_lang$html$Html_Attributes$class('item1'),
 									_elm_lang$html$Html_Events$onClick(
 									_user$project$Types$SetPage(_user$project$Types$SelectLists1))
 								]),
@@ -10336,7 +10336,7 @@ var _user$project$View$newIdeaHeaderBottom = function (model) {
 							_elm_lang$html$Html$div,
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html_Attributes$class('medium item2'),
+									_elm_lang$html$Html_Attributes$class('item2'),
 									_elm_lang$html$Html_Events$onClick(
 									_user$project$Types$SetPage(_user$project$Types$SelectLists2))
 								]),
@@ -10873,7 +10873,7 @@ var _user$project$Update$app = F2(
 				var item = function (list) {
 					return A2(
 						_mgold$elm_random_pcg$Random_Pcg$map,
-						_elm_lang$core$Maybe$withDefault(' '),
+						_elm_lang$core$Maybe$withDefault('-'),
 						_mgold$elm_random_pcg$Random_Pcg$sample(list));
 				};
 				var getList = function (selected) {
@@ -10956,7 +10956,7 @@ var _user$project$App$initLists = _elm_lang$core$Native_List.fromArray(
 	]);
 var _user$project$App$allListIds = _user$project$Util$getAllListIds(_user$project$App$initLists);
 var _user$project$App$initModel = {
-	page: _user$project$Types$SelectLists1,
+	page: _user$project$Types$NewIdea,
 	search: false,
 	sort: _user$project$Types$Ascending,
 	ideas: _user$project$App$initIdeas,
@@ -10968,16 +10968,17 @@ var _user$project$App$initModel = {
 	editListItem: _elm_lang$core$Maybe$Nothing,
 	t: 0.0,
 	seed: _mgold$elm_random_pcg$Random_Pcg$initialSeed(123894123097),
-	randomItem1: '',
-	randomItem2: ''
+	randomItem1: '-',
+	randomItem2: '-'
 };
 var _user$project$App$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
+var _user$project$App$initCmd = _shmookey$cmd_extra$Cmd_Extra$message(_user$project$Types$DrawRandomItems);
 var _user$project$App$main = {
 	main: _elm_lang$html$Html_App$program(
 		{
-			init: {ctor: '_Tuple2', _0: _user$project$App$initModel, _1: _elm_lang$core$Platform_Cmd$none},
+			init: {ctor: '_Tuple2', _0: _user$project$App$initModel, _1: _user$project$App$initCmd},
 			update: _user$project$Update$app,
 			view: _user$project$View$app,
 			subscriptions: _user$project$App$subscriptions

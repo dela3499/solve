@@ -50,14 +50,15 @@
 .new-idea.header .combo .item1, 
 .new-idea.header .combo .item2 {
 	background: #00aa88;
-	padding: 10px 30px 15px 30px;
+	padding: 15px 30px 20px 30px;
 	color: white;
 	width: 49%;
 	float: left;
 	overflow: hidden;
 	white-space: nowrap;
 	box-sizing: border-box;
-	text-align: center
+	text-align: center;
+	font-size: 40px;
 
 }
 

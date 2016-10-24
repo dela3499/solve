@@ -228,12 +228,12 @@ newIdeaHeaderBottom model =
         [ div
             [] 
             [ div 
-                [ class "medium item1" 
+                [ class "item1" 
                 , onClick (SetPage SelectLists1)
                 ] 
                 [ text model.randomItem1 ]
             , div
-                [ class "medium item2" 
+                [ class "item2" 
                 , onClick (SetPage SelectLists2)
                 ]  
                 [ text model.randomItem2 ]

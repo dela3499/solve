@@ -7,7 +7,7 @@ import Html.Attributes exposing (..)
 import Unicode exposing (text')
 import Types exposing (..)
 import String
-
+import Set
   
 upArrow = 
   text' "&#8593;"
@@ -26,3 +26,16 @@ wrap class' html =
 
 px n = 
   toString n ++ "px"     
+
+
+toggleMember value set = 
+  if Set.member value set then
+    Set.remove value set
+  else
+    Set.insert value set
+
+
+getAllListIds lists =
+  lists
+    |> List.map .id 
+    |> Set.fromList    

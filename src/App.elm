@@ -14,7 +14,7 @@ import Random.Pcg
 import Time
 
 import Types exposing (..)
---import Util
+import Util
 import View
 import Update
 --import Ports
@@ -37,38 +37,79 @@ subscriptions model =
 
 initModel: Model
 initModel = 
-  { page = NewIdea
+  { page = SelectLists1
   , search = False
   , sort = Ascending
   , ideas = initIdeas
   , lists = initLists
-  , comboLists1 = All
-  , comboLists2 = All
+  , selectedLists1 = allListIds
+  , selectedLists2 = allListIds
   , editListName = Nothing
   , editListItems = Nothing
   , editListItem = Nothing
   , t = 0.0
   , seed = 
       Random.Pcg.initialSeed 123894123097 --replaced on start
+  , randomItem1 = ""
+  , randomItem2 = ""
   }
 
 
+allListIds = 
+  Util.getAllListIds initLists
+
 initLists = 
-  Dict.fromList
-    []
+  [ { title = "Google Earth tours"
+    , items = [ "Zimbabwe", "Santa Clara", "River systems", "Famous buildings" ]
+    , created = 1477202325738
+    , id = "L1"
+    }
+  , { title = "Google Earth tours"
+    , items = [ "Zimbabwe", "Santa Clara", "River systems", "Famous buildings" ]
+    , created = 1477202325738
+    , id = "L2"
+    }
+  , { title = "Google Earth tours"
+    , items = [ "Zimbabwe", "Santa Clara", "River systems", "Famous buildings" ]
+    , created = 1477202325738
+    , id = "L3"
+    }
+  , { title = "Google Earth tours"
+    , items = [ "Zimbabwe", "Santa Clara", "River systems", "Famous buildings" ]
+    , created = 1477202325738
+    , id = "L4"
+    }
+  , { title = "Google Earth tours"
+    , items = [ "Zimbabwe", "Santa Clara", "River systems", "Famous buildings" ]
+    , created = 1477202325738
+    , id = "L5"
+    }
+  ]        
+
+
+
+type alias List' = 
+  { title: String
+  , items: List String
+  , created: Float -- ms timestamp
+  }
+
 
 initIdeas = 
   [ { title = "Google Earth tours"
     , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
+    , id = "Ia"
     }
   , { title = "Google Earth tours"
     , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
+    , id = "Ib"
     }
   , { title = "Google Earth tours"
     , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
     , created = 1477202325738
+    , id = "Ic"
     } 
   ]
 

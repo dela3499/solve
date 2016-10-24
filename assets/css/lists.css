@@ -1,0 +1,32 @@
+.list {
+	padding: 50px 65px 50px 55px;
+	border-bottom: 1px solid rgba(0,0,0,0.4);
+	height: 180px;
+}
+
+.list .selector {
+	float: left;
+	height: 100%;
+	padding: 30px 50px 50px 0px;
+	font-size: 90px;
+}
+
+.list .fa-circle-o {
+	color: lightgrey;
+}
+
+.list .fa-check-circle-o {
+	color: #00aa88;
+}
+
+.list .title {
+	font-size: 52px;
+	color: #00aa88;
+	padding-bottom: 10px;
+}
+
+.list .items {
+	font-size: 45px;
+	color: rgba(0,0,0,0.8);
+}
+

@@ -6,10 +6,10 @@ import Dom
 import Random.Pcg
 
 type alias Model = 
-  { lists: Dict String List'
+  { lists: List List'
   , ideas: List Idea
-  , comboLists1: ListSelection
-  , comboLists2: ListSelection
+  , selectedLists1: Set String
+  , selectedLists2: Set String
   , page: Page
   , editListName: Maybe String
   , editListItems: Maybe (List String)
@@ -18,6 +18,8 @@ type alias Model =
   , t: Float
   , search: Bool
   , sort: Direction
+  , randomItem1: String
+  , randomItem2: String
   }
 
 
@@ -25,6 +27,7 @@ type alias List' =
   { title: String
   , items: List String
   , created: Float -- ms timestamp
+  , id: String
   }
 
 
@@ -32,6 +35,7 @@ type alias Idea =
   { title: String
   , content: String
   , created: Float -- ms timestamp
+  , id: String
   }
 
 
@@ -39,7 +43,11 @@ type Msg
   = NoMsg
   | SetPage Page
   | SetSearch Bool
+  | ToggleList String -- Maybe turn this into UUID
+  | SelectAllLists
+  | ClearAllLists
   | ToggleSort
+  | DrawRandomItems
 
 
 type Page
@@ -47,12 +55,8 @@ type Page
   | Statistics
   | Settings
   | NewIdea
-
-
-type ListSelection 
-  = All
-  | None
-  | Some (Set String)
+  | SelectLists1
+  | SelectLists2
 
 
 type Direction 

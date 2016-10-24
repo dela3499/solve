@@ -9931,7 +9931,11 @@ var _user$project$Types$Model = function (a) {
 									return function (j) {
 										return function (k) {
 											return function (l) {
-												return {lists: a, ideas: b, comboLists1: c, comboLists2: d, page: e, editListName: f, editListItems: g, editListItem: h, seed: i, t: j, search: k, sort: l};
+												return function (m) {
+													return function (n) {
+														return {lists: a, ideas: b, selectedLists1: c, selectedLists2: d, page: e, editListName: f, editListItems: g, editListItem: h, seed: i, t: j, search: k, sort: l, randomItem1: m, randomItem2: n};
+													};
+												};
 											};
 										};
 									};
@@ -9944,15 +9948,21 @@ var _user$project$Types$Model = function (a) {
 		};
 	};
 };
-var _user$project$Types$List$ = F3(
-	function (a, b, c) {
-		return {title: a, items: b, created: c};
+var _user$project$Types$List$ = F4(
+	function (a, b, c, d) {
+		return {title: a, items: b, created: c, id: d};
 	});
-var _user$project$Types$Idea = F3(
-	function (a, b, c) {
-		return {title: a, content: b, created: c};
+var _user$project$Types$Idea = F4(
+	function (a, b, c, d) {
+		return {title: a, content: b, created: c, id: d};
 	});
+var _user$project$Types$DrawRandomItems = {ctor: 'DrawRandomItems'};
 var _user$project$Types$ToggleSort = {ctor: 'ToggleSort'};
+var _user$project$Types$ClearAllLists = {ctor: 'ClearAllLists'};
+var _user$project$Types$SelectAllLists = {ctor: 'SelectAllLists'};
+var _user$project$Types$ToggleList = function (a) {
+	return {ctor: 'ToggleList', _0: a};
+};
 var _user$project$Types$SetSearch = function (a) {
 	return {ctor: 'SetSearch', _0: a};
 };
@@ -9960,18 +9970,28 @@ var _user$project$Types$SetPage = function (a) {
 	return {ctor: 'SetPage', _0: a};
 };
 var _user$project$Types$NoMsg = {ctor: 'NoMsg'};
+var _user$project$Types$SelectLists2 = {ctor: 'SelectLists2'};
+var _user$project$Types$SelectLists1 = {ctor: 'SelectLists1'};
 var _user$project$Types$NewIdea = {ctor: 'NewIdea'};
 var _user$project$Types$Settings = {ctor: 'Settings'};
 var _user$project$Types$Statistics = {ctor: 'Statistics'};
 var _user$project$Types$Ideas = {ctor: 'Ideas'};
-var _user$project$Types$Some = function (a) {
-	return {ctor: 'Some', _0: a};
-};
-var _user$project$Types$None = {ctor: 'None'};
-var _user$project$Types$All = {ctor: 'All'};
 var _user$project$Types$Descending = {ctor: 'Descending'};
 var _user$project$Types$Ascending = {ctor: 'Ascending'};
 
+var _user$project$Util$getAllListIds = function (lists) {
+	return _elm_lang$core$Set$fromList(
+		A2(
+			_elm_lang$core$List$map,
+			function (_) {
+				return _.id;
+			},
+			lists));
+};
+var _user$project$Util$toggleMember = F2(
+	function (value, set) {
+		return A2(_elm_lang$core$Set$member, value, set) ? A2(_elm_lang$core$Set$remove, value, set) : A2(_elm_lang$core$Set$insert, value, set);
+	});
 var _user$project$Util$px = function (n) {
 	return A2(
 		_elm_lang$core$Basics_ops['++'],
@@ -9998,9 +10018,20 @@ var _user$project$Util$downArrow = _jasonmahr$html_escape_sequences$Unicode$text
 var _user$project$Util$upArrow = _jasonmahr$html_escape_sequences$Unicode$text$('&#8593;');
 
 var _user$project$View$footerMenu = function (currentPage) {
-	var createButton = function (_p0) {
-		var _p1 = _p0;
-		var _p2 = _p1._0;
+	var activeTab = function (page) {
+		var _p0 = page;
+		switch (_p0.ctor) {
+			case 'Settings':
+				return _user$project$Types$Settings;
+			case 'Statistics':
+				return _user$project$Types$Statistics;
+			default:
+				return _user$project$Types$Ideas;
+		}
+	};
+	var createButton = function (_p1) {
+		var _p2 = _p1;
+		var _p3 = _p2._0;
 		return A2(
 			_elm_lang$html$Html$div,
 			_elm_lang$core$Native_List.fromArray(
@@ -10012,11 +10043,13 @@ var _user$project$View$footerMenu = function (currentPage) {
 							{
 							ctor: '_Tuple2',
 							_0: 'active',
-							_1: _elm_lang$core$Native_Utils.eq(currentPage, _p2)
+							_1: _elm_lang$core$Native_Utils.eq(
+								_p3,
+								activeTab(currentPage))
 						}
 						])),
 					_elm_lang$html$Html_Events$onClick(
-					_user$project$Types$SetPage(_p2))
+					_user$project$Types$SetPage(_p3))
 				]),
 			_elm_lang$core$Native_List.fromArray(
 				[
@@ -10025,7 +10058,7 @@ var _user$project$View$footerMenu = function (currentPage) {
 					_elm_lang$core$Native_List.fromArray(
 						[
 							_elm_lang$html$Html_Attributes$class(
-							A2(_elm_lang$core$Basics_ops['++'], 'fa ', _p1._2))
+							A2(_elm_lang$core$Basics_ops['++'], 'fa ', _p2._2))
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[])),
@@ -10037,7 +10070,7 @@ var _user$project$View$footerMenu = function (currentPage) {
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html$text(_p1._1)
+							_elm_lang$html$Html$text(_p2._1)
 						]))
 				]));
 	};
@@ -10107,8 +10140,8 @@ var _user$project$View$searchHeader = function (model) {
 };
 var _user$project$View$headerRowHeight = 120;
 var _user$project$View$headerHeight = function (model) {
-	var _p3 = model.page;
-	if (_p3.ctor === 'NewIdea') {
+	var _p4 = model.page;
+	if (_p4.ctor === 'NewIdea') {
 		return 2 * _user$project$View$headerRowHeight;
 	} else {
 		return _user$project$View$headerRowHeight;
@@ -10160,8 +10193,8 @@ var _user$project$View$ideasHeader = function (model) {
 					_elm_lang$core$Native_List.fromArray(
 						[
 							function () {
-							var _p4 = model.sort;
-							if (_p4.ctor === 'Ascending') {
+							var _p5 = model.sort;
+							if (_p5.ctor === 'Ascending') {
 								return _user$project$Util$upArrow;
 							} else {
 								return _user$project$Util$downArrow;
@@ -10291,28 +10324,33 @@ var _user$project$View$newIdeaHeaderBottom = function (model) {
 							_elm_lang$html$Html$div,
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html_Attributes$class('medium item1')
+									_elm_lang$html$Html_Attributes$class('medium item1'),
+									_elm_lang$html$Html_Events$onClick(
+									_user$project$Types$SetPage(_user$project$Types$SelectLists1))
 								]),
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html$text('Horse basket')
+									_elm_lang$html$Html$text(model.randomItem1)
 								])),
 							A2(
 							_elm_lang$html$Html$div,
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html_Attributes$class('medium item2')
+									_elm_lang$html$Html_Attributes$class('medium item2'),
+									_elm_lang$html$Html_Events$onClick(
+									_user$project$Types$SetPage(_user$project$Types$SelectLists2))
 								]),
 							_elm_lang$core$Native_List.fromArray(
 								[
-									_elm_lang$html$Html$text('Bacon')
+									_elm_lang$html$Html$text(model.randomItem2)
 								]))
 						])),
 					A2(
 					_elm_lang$html$Html$i,
 					_elm_lang$core$Native_List.fromArray(
 						[
-							_elm_lang$html$Html_Attributes$class('fa fa-refresh')
+							_elm_lang$html$Html_Attributes$class('fa fa-refresh'),
+							_elm_lang$html$Html_Events$onClick(_user$project$Types$DrawRandomItems)
 						]),
 					_elm_lang$core$Native_List.fromArray(
 						[]))
@@ -10502,6 +10540,194 @@ var _user$project$View$ideasPage = function (model) {
 				_user$project$View$footerMenu(model.page)
 			]));
 };
+var _user$project$View$selectListsHeader = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('select-lists header material'),
+				_elm_lang$html$Html_Attributes$style(
+				_elm_lang$core$Native_List.fromArray(
+					[
+						{
+						ctor: '_Tuple2',
+						_0: 'height',
+						_1: _user$project$Util$px(_user$project$View$headerRowHeight)
+					}
+					]))
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('back')
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$i,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('fa fa-angle-left'),
+								_elm_lang$html$Html_Events$onClick(
+								_user$project$Types$SetPage(_user$project$Types$NewIdea))
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[])),
+						A2(
+						_elm_lang$html$Html$span,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$class('medium new-idea'),
+								_elm_lang$html$Html_Events$onClick(
+								_user$project$Types$SetPage(_user$project$Types$NewIdea))
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('New Idea')
+							]))
+					])),
+				A2(
+				_elm_lang$html$Html$span,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('medium'),
+						_elm_lang$html$Html_Events$onClick(_user$project$Types$SelectAllLists)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Select All')
+					])),
+				A2(
+				_elm_lang$html$Html$span,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('medium'),
+						_elm_lang$html$Html_Events$onClick(_user$project$Types$ClearAllLists)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Clear All')
+					]))
+			]));
+};
+var _user$project$View$list = F2(
+	function (selected, list$) {
+		var iconClass = A2(_elm_lang$core$Set$member, list$.id, selected) ? 'fa fa-check-circle-o' : 'fa fa-circle-o';
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('list'),
+					_elm_lang$html$Html_Events$onClick(
+					_user$project$Types$ToggleList(list$.id))
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('selector')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							A2(
+							_elm_lang$html$Html$i,
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html_Attributes$class(iconClass)
+								]),
+							_elm_lang$core$Native_List.fromArray(
+								[]))
+						])),
+					A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('text')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							A2(
+							_elm_lang$html$Html$div,
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html_Attributes$class('title bold')
+								]),
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html$text(list$.title)
+								])),
+							A2(
+							_elm_lang$html$Html$div,
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html_Attributes$class('items medium')
+								]),
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$html$Html$text(
+									A2(
+										_user$project$View$truncate,
+										200,
+										A2(_elm_lang$core$String$join, ', ', list$.items)))
+								]))
+						]))
+				]));
+	});
+var _user$project$View$selectListsPage = function (model) {
+	var selectedLists = function () {
+		var _p6 = model.page;
+		switch (_p6.ctor) {
+			case 'SelectLists1':
+				return model.selectedLists1;
+			case 'SelectLists2':
+				return model.selectedLists2;
+			default:
+				return _elm_lang$core$Set$empty;
+		}
+	}();
+	var lists = A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('content lists'),
+				_elm_lang$html$Html_Attributes$style(
+				_elm_lang$core$Native_List.fromArray(
+					[
+						{
+						ctor: '_Tuple2',
+						_0: 'top',
+						_1: _user$project$Util$px(
+							_user$project$View$headerHeight(model))
+					}
+					]))
+			]),
+		A2(
+			_elm_lang$core$List$map,
+			_user$project$View$list(selectedLists),
+			A2(
+				_elm_lang$core$List$sortBy,
+				function (_) {
+					return _.created;
+				},
+				model.lists)));
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('select-lists page')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_user$project$View$selectListsHeader(model),
+				lists,
+				_user$project$View$footerMenu(model.page)
+			]));
+};
 var _user$project$View$app = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -10512,16 +10738,20 @@ var _user$project$View$app = function (model) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				function () {
-				var _p5 = model.page;
-				switch (_p5.ctor) {
+				var _p7 = model.page;
+				switch (_p7.ctor) {
 					case 'Ideas':
 						return _user$project$View$ideasPage(model);
 					case 'Statistics':
 						return _user$project$View$statisticsPage(model);
 					case 'Settings':
 						return _user$project$View$settingsPage(model);
-					default:
+					case 'NewIdea':
 						return _user$project$View$newIdeaPage(model);
+					case 'SelectLists1':
+						return _user$project$View$selectListsPage(model);
+					default:
+						return _user$project$View$selectListsPage(model);
 				}
 			}()
 			]));
@@ -10549,7 +10779,7 @@ var _user$project$Update$app = F2(
 						{search: _p0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			default:
+			case 'ToggleSort':
 				var newDirection = function () {
 					var _p1 = model.sort;
 					if (_p1.ctor === 'Ascending') {
@@ -10565,31 +10795,181 @@ var _user$project$Update$app = F2(
 						{sort: newDirection}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'ToggleList':
+				var updateSelected = function (selected) {
+					return A2(_user$project$Util$toggleMember, _p0._0, selected);
+				};
+				var _p2 = model.page;
+				switch (_p2.ctor) {
+					case 'SelectLists1':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									selectedLists1: updateSelected(model.selectedLists1)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					case 'SelectLists2':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									selectedLists2: updateSelected(model.selectedLists2)
+								}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					default:
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'SelectAllLists':
+				var allListIds = _user$project$Util$getAllListIds(model.lists);
+				var _p3 = model.page;
+				switch (_p3.ctor) {
+					case 'SelectLists1':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{selectedLists1: allListIds}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					case 'SelectLists2':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{selectedLists2: allListIds}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					default:
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'ClearAllLists':
+				var _p4 = model.page;
+				switch (_p4.ctor) {
+					case 'SelectLists1':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{selectedLists1: _elm_lang$core$Set$empty}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					case 'SelectLists2':
+						return {
+							ctor: '_Tuple2',
+							_0: _elm_lang$core$Native_Utils.update(
+								model,
+								{selectedLists2: _elm_lang$core$Set$empty}),
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					default:
+						return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			default:
+				var item = function (list) {
+					return A2(
+						_mgold$elm_random_pcg$Random_Pcg$map,
+						_elm_lang$core$Maybe$withDefault(' '),
+						_mgold$elm_random_pcg$Random_Pcg$sample(list));
+				};
+				var getList = function (selected) {
+					return _elm_lang$core$List$concat(
+						A2(
+							_elm_lang$core$List$map,
+							function (_) {
+								return _.items;
+							},
+							A2(
+								_elm_lang$core$List$filter,
+								function (list) {
+									return A2(_elm_lang$core$Set$member, list.id, selected);
+								},
+								model.lists)));
+				};
+				var items = A2(
+					_mgold$elm_random_pcg$Random_Pcg$pair,
+					item(
+						getList(model.selectedLists1)),
+					item(
+						getList(model.selectedLists2)));
+				var _p5 = A2(_mgold$elm_random_pcg$Random_Pcg$step, items, model.seed);
+				var item1 = _p5._0._0;
+				var item2 = _p5._0._1;
+				var seed$ = _p5._1;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{randomItem1: item1, randomItem2: item2, seed: seed$}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 
 var _user$project$App$initIdeas = _elm_lang$core$Native_List.fromArray(
 	[
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738},
-		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738}
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'}
 	]);
-var _user$project$App$initLists = _elm_lang$core$Dict$fromList(
-	_elm_lang$core$Native_List.fromArray(
-		[]));
+var _user$project$App$initLists = _elm_lang$core$Native_List.fromArray(
+	[
+		{
+		title: 'Google Earth tours',
+		items: _elm_lang$core$Native_List.fromArray(
+			['Zimbabwe', 'Santa Clara', 'River systems', 'Famous buildings']),
+		created: 1477202325738,
+		id: 'L1'
+	},
+		{
+		title: 'Google Earth tours',
+		items: _elm_lang$core$Native_List.fromArray(
+			['Zimbabwe', 'Santa Clara', 'River systems', 'Famous buildings']),
+		created: 1477202325738,
+		id: 'L2'
+	},
+		{
+		title: 'Google Earth tours',
+		items: _elm_lang$core$Native_List.fromArray(
+			['Zimbabwe', 'Santa Clara', 'River systems', 'Famous buildings']),
+		created: 1477202325738,
+		id: 'L3'
+	},
+		{
+		title: 'Google Earth tours',
+		items: _elm_lang$core$Native_List.fromArray(
+			['Zimbabwe', 'Santa Clara', 'River systems', 'Famous buildings']),
+		created: 1477202325738,
+		id: 'L4'
+	},
+		{
+		title: 'Google Earth tours',
+		items: _elm_lang$core$Native_List.fromArray(
+			['Zimbabwe', 'Santa Clara', 'River systems', 'Famous buildings']),
+		created: 1477202325738,
+		id: 'L5'
+	}
+	]);
+var _user$project$App$allListIds = _user$project$Util$getAllListIds(_user$project$App$initLists);
 var _user$project$App$initModel = {
-	page: _user$project$Types$NewIdea,
+	page: _user$project$Types$SelectLists1,
 	search: false,
 	sort: _user$project$Types$Ascending,
 	ideas: _user$project$App$initIdeas,
 	lists: _user$project$App$initLists,
-	comboLists1: _user$project$Types$All,
-	comboLists2: _user$project$Types$All,
+	selectedLists1: _user$project$App$allListIds,
+	selectedLists2: _user$project$App$allListIds,
 	editListName: _elm_lang$core$Maybe$Nothing,
 	editListItems: _elm_lang$core$Maybe$Nothing,
 	editListItem: _elm_lang$core$Maybe$Nothing,
 	t: 0.0,
-	seed: _mgold$elm_random_pcg$Random_Pcg$initialSeed(123894123097)
+	seed: _mgold$elm_random_pcg$Random_Pcg$initialSeed(123894123097),
+	randomItem1: '',
+	randomItem2: ''
 };
 var _user$project$App$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
@@ -10603,6 +10983,10 @@ var _user$project$App$main = {
 			subscriptions: _user$project$App$subscriptions
 		})
 };
+var _user$project$App$List$ = F3(
+	function (a, b, c) {
+		return {title: a, items: b, created: c};
+	});
 
 var Elm = {};
 Elm['App'] = Elm['App'] || {};

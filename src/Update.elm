@@ -12,7 +12,7 @@ import Task exposing (Task)
 import Dom
 
 import Types exposing (..)
---import Util
+import Util
 import Cmd.Extra
 --import Ports
 import Random.Pcg 
@@ -37,6 +37,63 @@ app msg model =
               Descending -> Ascending
       in 
         ({ model | sort = newDirection }, Cmd.none)
+
+    ToggleList listId-> 
+      let updateSelected selected = 
+            Util.toggleMember listId selected
+      in case model.page of
+        SelectLists1 -> 
+          ({ model | selectedLists1 = 
+              updateSelected model.selectedLists1 }, Cmd.none)
+        SelectLists2 -> 
+          ({ model | selectedLists2 = 
+              updateSelected model.selectedLists2 }, Cmd.none)
+        _ -> 
+          (model, Cmd.none)
+    
+    SelectAllLists -> 
+      let allListIds = 
+            Util.getAllListIds model.lists
+      in case model.page of 
+        SelectLists1 -> 
+          ({ model | selectedLists1 = allListIds }, Cmd.none)
+        SelectLists2 -> 
+          ({ model | selectedLists2 = allListIds }, Cmd.none)
+        _ -> 
+          (model, Cmd.none)
+
+    
+    ClearAllLists -> 
+      case model.page of 
+        SelectLists1 -> 
+          ({ model | selectedLists1 = Set.empty }, Cmd.none)
+        SelectLists2 -> 
+          ({ model | selectedLists2 = Set.empty }, Cmd.none)
+        _ -> 
+          (model, Cmd.none)
+
+    DrawRandomItems -> 
+      let getList selected = 
+            model.lists
+              |> List.filter (\list -> Set.member list.id selected)
+              |> List.map .items
+              |> List.concat
+          item list = 
+            Random.Pcg.sample list
+              |> Random.Pcg.map (withDefault " ")
+          items = 
+            Random.Pcg.pair
+              (item (getList model.selectedLists1))
+              (item (getList model.selectedLists2))
+          ((item1, item2), seed') = 
+            Random.Pcg.step items model.seed
+      in 
+        ({ model 
+            | randomItem1 = item1
+            , randomItem2 = item2
+            , seed = seed' 
+         }, Cmd.none)
+
 
     --SetList listId -> 
     --  let list = Dict.get listId model.lists

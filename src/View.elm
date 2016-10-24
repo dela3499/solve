@@ -28,7 +28,101 @@ app model =
 
         NewIdea -> 
           newIdeaPage model
+
+        SelectLists1 -> 
+          selectListsPage model 
+
+        SelectLists2 -> 
+          selectListsPage model 
     ] 
+
+
+selectListsPage model = 
+  let selectedLists = 
+        case model.page of
+          SelectLists1 -> model.selectedLists1
+          SelectLists2 -> model.selectedLists2
+          _ -> Set.empty
+      lists = 
+        div
+          [ class "content lists" 
+          , style [ ("top", model |> headerHeight |> px) ]
+          ]        
+          (model.lists
+            |> List.sortBy .created
+            |> List.map (list selectedLists)
+          )
+  in 
+    div
+      [ class "select-lists page" ]
+      [ selectListsHeader model 
+      , lists
+      , footerMenu model.page
+      ]
+
+
+list selected list' = 
+  let iconClass = 
+        if Set.member list'.id selected then
+          "fa fa-check-circle-o"
+        else
+          "fa fa-circle-o"
+  in
+    div
+      [ class "list" 
+      , onClick (ToggleList list'.id)
+      ] 
+      [ div 
+          [ class "selector" ]
+          [ i
+              [ class iconClass ]
+              []
+          ]
+      , div
+          [ class "text" ]
+          [ div
+              [ class "title bold" ]
+              [ text list'.title ]
+          , div
+              [ class "items medium" ]
+              [ list'.items
+                  |> String.join ", "
+                  |> truncate 200
+                  |> text 
+              ]
+          ]
+      ]
+                
+
+selectListsHeader model = 
+  div
+    [ class "select-lists header material" 
+    , style [("height", px headerRowHeight)]
+    ]
+    [ div
+        [ class "back" ]
+        [ i 
+            [ class "fa fa-angle-left" 
+            , onClick (SetPage NewIdea) 
+            ]
+            []    
+        , span 
+            [ class "medium new-idea"
+            , onClick (SetPage NewIdea) 
+            ] 
+            [ text "New Idea" ]
+        ]
+    , span 
+        [ class "medium"
+        , onClick (SelectAllLists) 
+        ] 
+        [ text "Select All" ]
+    , span 
+        [ class "medium"
+        , onClick (ClearAllLists) 
+        ] 
+        [ text "Clear All" ]                     
+    ]
 
 
 ideasPage model =
@@ -134,14 +228,20 @@ newIdeaHeaderBottom model =
         [ div
             [] 
             [ div 
-                [ class "medium item1" ] 
-                [ text "Horse basket" ]
+                [ class "medium item1" 
+                , onClick (SetPage SelectLists1)
+                ] 
+                [ text model.randomItem1 ]
             , div
-                [ class "medium item2" ]  
-                [ text "Bacon" ]
+                [ class "medium item2" 
+                , onClick (SetPage SelectLists2)
+                ]  
+                [ text model.randomItem2 ]
             ]
         , i   
-            [ class "fa fa-refresh" ]
+            [ class "fa fa-refresh" 
+            , onClick DrawRandomItems
+            ]
             []
         ]
       )      
@@ -266,13 +366,19 @@ footerMenu currentPage =
         , (Statistics, "Stats", "fa-pie-chart")
         , (Settings, "Settings", "fa-cog")
         ]
-      createButton (page, label, icon) = 
+      activeTab page = 
+        case page of
+          Settings -> Settings
+          Statistics -> Statistics
+          _ -> Ideas      
+
+      createButton (tab, label, icon) = 
         div
           [ classList
               [ ("button", True)
-              , ("active", currentPage == page ) 
+              , ("active", tab == (activeTab currentPage)) 
               ]
-          , onClick (SetPage page)  
+          , onClick (SetPage tab)  
           ]
           [ i
               [ class ("fa " ++ icon) ]

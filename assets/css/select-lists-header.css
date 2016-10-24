@@ -1,0 +1,22 @@
+.select-lists.header > * {
+	padding: 30px;
+	display: inline-block;
+	width: 33.3%;
+	box-sizing: border-box;
+	padding-top: 32px;
+}
+
+.select-lists.header .back * {
+	padding-right: 10px;
+	color: #00aa88;
+}
+
+.select-lists.header .back i {
+	font-size: 90px;
+	position: absolute;
+	top: 12px;
+}
+
+.select-lists.header .back .new-idea { 
+	padding-left: 40px;
+}

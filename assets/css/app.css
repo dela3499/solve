@@ -39,6 +39,7 @@ body * {
 	position: absolute;
 	width: 100%;
 	bottom: 180px;
+	overflow-y: scroll;
 }
 
 input, textarea {

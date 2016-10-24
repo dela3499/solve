@@ -115,6 +115,36 @@ initIdeas =
     , created = 1477202325738
     , id = "Ic"
     } 
+  , { title = "Google Earth tours"
+    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , created = 1477202325738
+    , id = "Ia"
+    }
+  , { title = "Google Earth tours"
+    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , created = 1477202325738
+    , id = "Ib"
+    }
+  , { title = "Google Earth tours"
+    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , created = 1477202325738
+    , id = "Ic"
+    } 
+  , { title = "Google Earth tours"
+    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , created = 1477202325738
+    , id = "Ia"
+    }
+  , { title = "Google Earth tours"
+    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , created = 1477202325738
+    , id = "Ib"
+    }
+  , { title = "Google Earth tours"
+    , content = "It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth."
+    , created = 1477202325738
+    , id = "Ic"
+    } 
   ]
 
 

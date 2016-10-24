@@ -10914,6 +10914,12 @@ var _user$project$App$initIdeas = _elm_lang$core$Native_List.fromArray(
 	[
 		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
 		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ia'},
+		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ib'},
 		{title: 'Google Earth tours', content: 'It might be really fun to get a big screen, a nice internet connection, and treat people to a whirlwind tour with Google Earth.', created: 1477202325738, id: 'Ic'}
 	]);
 var _user$project$App$initLists = _elm_lang$core$Native_List.fromArray(
